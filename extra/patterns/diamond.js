@@ -33,5 +33,6 @@ for(let i=norow;i>=0;i--)
     else console.log("wrong input");
 }
 console.log("Print a diamond with rows ",norow);
-      diamond(norow);
+      
+diamond(norow);
       

@@ -16,4 +16,5 @@ function triangle(norow){
 else console.log("wrong input");
 }
 console.log("Print a triangle with rows ",norow);
+
 triangle(norow);
