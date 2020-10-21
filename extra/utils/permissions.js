@@ -50,7 +50,9 @@ function hasPermission(moduleName, role, permissionType) {
 const { getUser1, getUser2 } = permissions;
 let result = hasPermission(getUser1, 'head-trainer', 'read');
 console.log('getUser1:Head-trainer has read permission ', result);
+
 let result1 = hasPermission(getUser2, 'trainer', 'all');
 console.log('getUser2:Trainer has all permission ', result1);
+
 let result2 = hasPermission(getUser2, 'trainee', 'Delete');
 console.log('getUser2:Trainee has delete permission ', result2);
