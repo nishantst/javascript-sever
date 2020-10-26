@@ -1,35 +1,38 @@
 
-export function diamond(norow: number):void {
-    console.log("Print a diamond with rows ", norow);
-    let i: number,j: number,k: number,l: number;
-    let str:string = " ";
+export function diamond(norow: number): void {
+    console.log('Print a diamond with rows ', norow);
+    let i: number;
+    let j: number;
+    let k: number;
+    let l: number;
+    let str: string = ' ';
     if (norow <= 10 && norow >= 2) {
         for ( i = 0; i <= norow; i++) {
-            str = "";
+            str = '';
             for ( j = norow; j > i; j--) {
-                str += " ";
+                str += ' ';
             }
             for ( k = 1; k < i; k++) {
-                str += "*";
+                str += '*';
             }
             for ( l = 1; l <= i; l++) {
-                str += "*";
+                str += '*';
             }
             console.log(str);
         }
         for ( i = norow; i >= 0; i--) {
-            str = "";
+            str = '';
             for ( j = norow; j > i; j--) {
-                str += " ";
+                str += ' ';
             }
             for ( k = 1; k < i; k++) {
-                str += "*";
+                str += '*';
             }
             for ( l = 1; l <= i; l++) {
-                str += "*";
+                str += '*';
             }
             console.log(str);
         }
     }
-    else console.log("wrong input");
+    else console.log('wrong input');
 }

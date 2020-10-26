@@ -20,7 +20,16 @@
   "bugs": {
     "url": "https://github.com/nishantst/javascript-sever/issues"
   },
-  "homepage": "https://github.com/nishantst/javascript-sever#readme",
+
+  "husky": {
+    "hooks":{
+      "prepare-commit-msg": "exec > /dev/tty && git cz --hook|| true",
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  },
+
+    "homepage": "https://github.com/nishantst/javascript-sever#readme",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.3",

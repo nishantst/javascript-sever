@@ -1,7 +1,7 @@
-import { hasPermission } from './permissions.js'
+import { hasPermission } from './permissions.js';
 
-export { hasPermission }
+export { hasPermission };
 
-import { validateUsers } from './validation.js'
+import { validateUsers } from './validation.js';
 
-export { validateUsers }
+export { validateUsers };

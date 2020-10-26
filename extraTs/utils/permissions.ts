@@ -1,33 +1,26 @@
-export function hasPermission (moduleName, role: string, permissionType: string):Boolean {
-    let { all, read, write, Delete } = moduleName;
-    if (role == 'head-trainer') {
-        return true;
-    }
-    else {
-        if (permissionType == 'all') {
-            if (all.includes(role))
-                return true
-            else
+import{ permissions } from '../constants';
+export function hasPermission (moduleName: string, role: string, permissionType: string): boolean {
+   for (const[key , value] of Object.entries(permissions) ) {
+       if (key === moduleName) {
+           if (value.all.indexOf(role) !== -1) {
+               return true;
+           }
+           else {
+        for (const[key1 , value1] of Object.entries(value)) {
+            if (key1 === permissionType) {
+                if (Object.values(value1).includes(role)) {
+                    return true;
+                }
                 return false;
-        }
-        if (permissionType == 'read') {
-            if (read.includes(role))
-                return true;
-            else
-                return false;
-        }
-        if (permissionType == 'write') {
-            if (write.includes(role))
-                return true
-            else
-                return false;
-        }
-        if (permissionType == 'Delete') {
-            if (Delete.includes(role))
-                return true
-            else
-                return false;
-        }
-
-    }
+            }
+                else {
+                continue;
+            }
+       }
+   }
+}
+else {
+    continue;
+}
+}
 }

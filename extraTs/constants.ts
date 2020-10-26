@@ -1,5 +1,4 @@
-const permissions:IPermission =
-{
+const permissions: IPermission = {
     'getUser1': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
@@ -7,17 +6,13 @@ const permissions:IPermission =
         Delete: [],
     },
     'getUser2': {
-        all: ['head-trainer'],
-        read: ['trainer'],
-        write: ['trainer', 'trainee'],
-        Delete: [],
-    }
-};
-const { getUser1, getUser2 } = permissions;
+        all: ['trainer'],
+        read: ['trainee'],
+        write: ['trainer'],
+        Delete: ['head-trainer'],
+    }};
 
-export { getUser1, getUser2 }
-
-const user:IUser [] =
+const user: IUser [] =
     [
         {
             traineeEmail: 'trainee1@successive.tech',
@@ -39,6 +34,6 @@ const user:IUser [] =
             traineeEmail: 'trainee5@gmail.tech',
             reviewerEmail: 'reviewer5@successive.tech',
         }
-    ]
+    ];
 
-export { user }
+export { permissions , user };
