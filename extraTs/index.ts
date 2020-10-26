@@ -1,6 +1,7 @@
+
 import { diamond, equilateral } from './patterns';
-console.log("After calling diamond function from diamond output is")
-diamond(5)
+console.log('After calling diamond function from diamond output is')
+diamond(6)
 
 console.log("After calling equilateral function from equilateral output is")
 equilateral(5)
