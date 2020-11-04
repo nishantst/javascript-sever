@@ -29,7 +29,7 @@ class Server {
    }
 
     initBodyParse() {
-        this.app.use(bodyParser.json({type: 'application/*+json'}));
+        this.app.use(bodyParser.json());
     }
 
     run () {

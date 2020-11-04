@@ -44,6 +44,9 @@
     
     "no-var-keyword": true,
     "no-var-requires": false,
+    "no-unused-expression": false,
+    "no-string-literal": false,
+    "object-literal-shorthand": false,
     
     "quotemark": [
     

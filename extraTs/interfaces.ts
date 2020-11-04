@@ -5,12 +5,12 @@ type Access = {
    Delete: string[];
 };
 
-interface IPermission {
+export interface IPermission {
     getUser1: Access;
     getUser2: Access;
 }
 
-interface IUser {
+export interface IUser {
     traineeEmail: string;
     reviewerEmail: string;
 }

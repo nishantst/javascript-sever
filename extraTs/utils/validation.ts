@@ -1,4 +1,5 @@
 import { validateEmail } from './helpers.js';
+import { IUser } from '.././interfaces'
 export function validateUsers(user: IUser[]): void {
     let valid = 0;
     let invalid = 0;
