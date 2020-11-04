@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundRoute, errorHandler } from './libs/routes';
 import routes from './router';
+import Database from './libs/Database';
 
 class Server {
     app;
@@ -10,7 +11,7 @@ class Server {
 
     }
 
-   bootstrap() {
+    bootstrap() {
         this.initBodyParse();
         this.setupRoutes();
         return this;
@@ -26,24 +27,30 @@ class Server {
         this.app.use(notFoundRoute);
 
         this.app.use(errorHandler);
-   }
+    }
 
     initBodyParse() {
         this.app.use(bodyParser.json());
     }
 
-    run () {
-        const { app , config : {PORT }} = this;
-        app.listen(PORT, (err) => {
-            if (err) {
-            console.log(err);
-            }
-            console.log(`App is running ${PORT}`);
-        });
-
+    run() {
+        const { app, config: { PORT, MONGO_URL } } = this;
+        Database.open(MONGO_URL)
+            .then((res) => {
+                console.log('successfully connected to mongo');
+                app.listen(PORT, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(`App is running ${PORT}`);
+                });
+            })
+            .catch((err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });        
     }
-
-
 }
 
 export default Server;
