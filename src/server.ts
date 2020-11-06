@@ -49,7 +49,7 @@ class Server {
                 if (err) {
                     console.log(err);
                 }
-            });        
+            });
     }
 }
 
