@@ -5,16 +5,17 @@ import validation from './validation';
 import authMiddleWare from '../../libs/routes/authMiddleWare';
 
 const UserRouter = express.Router();
-UserRouter.get('/', authMiddleWare('getUser1', 'read'), validationHandler(validation.get),
+
+UserRouter.get('/', validationHandler(validation.get),
     UserController.get);
 
-UserRouter.post('/', authMiddleWare('getUser1', 'write'), validationHandler(validation.create),
+UserRouter.post('/', validationHandler(validation.create),
     UserController.create);
 
-UserRouter.put('/', authMiddleWare('getUser1', 'write'), validationHandler(validation.update),
+UserRouter.put('/', validationHandler(validation.update),
     UserController.update);
 
-UserRouter.delete('/:id', authMiddleWare('getUser1', 'delete'), validationHandler(validation.delete),
+UserRouter.delete('/:id', validationHandler(validation.delete),
     UserController.delete);
 
 UserRouter.post('/login', validationHandler(validation.login), UserController.login);
