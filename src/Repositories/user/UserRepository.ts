@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersinableRepository from '../versionable/VersionableRepository';
+import * as bcrypt from 'bcrypt';
 
 export default class UserRepository extends VersinableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
@@ -13,16 +14,27 @@ export default class UserRepository extends VersinableRepository<IUserModel, mon
         super(userModel);
     }
 
-    public create(data) {
-        return super.createUser(data);
+    public create(data, creator) {
+        const rawPassword = data.password;
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
+        data.password = hashedPassword;
+        return super.createUser(data, creator);
     }
 
+    public updateUser(id, data, updator) {
+        if ('password' in data) {
+            const rawPassword = data.password;
+            const saltRounds = 10;
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hashedPassword = bcrypt.hashSync(rawPassword, salt);
+            data.password = hashedPassword;
+        }
+        return super.update(id, data, updator);
+    }
     public count() {
         return super.count();
-    }
-
-    public updateUser(id, data) {
-        return super.update(id, data);
     }
     public findOne(data) {
         return super.findOne(data);
@@ -30,8 +42,8 @@ export default class UserRepository extends VersinableRepository<IUserModel, mon
     public find(query) {
         return super.find(query);
     }
-    public delete(data) {
-        return super.delete(data);
+    public delete(data, deletor) {
+        return super.delete(data, deletor);
     }
     public getUser(data) {
         return super.getUser(data);
