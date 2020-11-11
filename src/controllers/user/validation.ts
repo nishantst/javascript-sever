@@ -15,6 +15,24 @@ const config = {
             regex: '',
             in: ['body'],
             errorMessage: 'Name is required',
+        },
+        role: {
+            required: true,
+            sting: true,
+            in: ['body'],
+            errorMessage: 'role is required',
+        },
+        email: {
+            required: true,
+            regex: /^[a-zA-Z0-9+_.-]+@successivetech+$/,
+            in: ['body'],
+            errorMessage: 'email error',
+        },
+        password: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Password is required'
         }
     },
     delete: {
@@ -58,10 +76,12 @@ const config = {
             required: true,
             string: true,
             in: ['body'],
+            errorMessage: 'Incorrect email expression',
             password: {
                 required: true,
                 string: true,
                 in: ['body'],
+                errorMessage: 'password is required',
             }
         }
     }

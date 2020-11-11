@@ -43,10 +43,14 @@
     ],
     
     "no-var-keyword": true,
+
     "no-var-requires": false,
+
     "no-unused-expression": false,
+
     "no-string-literal": false,
-    "object-literal-shorthand": false,
+
+    "object-literal-shorthand": false,    
     
     "quotemark": [
     
@@ -124,11 +128,15 @@
     
     "no-trailing-whitespace": true,
     
-    "no-null-keyword": true,
+    "no-null-keyword": false,
     
     "prefer-const": true,
+
+    "only-arrow-functions": false,
     
     "jsdoc-format": true,
+
+    "no-string-throw": false,       
     
     "no-console": [
     

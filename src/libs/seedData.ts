@@ -1,23 +1,29 @@
 import UserRepository from '../Repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import configuration from '../config/configuration';
 
-const userRepository: UserRepository = new UserRepository();
-export default () => {
-    userRepository.count()
+export default async () => {
+    const userRepository: UserRepository = new UserRepository();
+    await userRepository.count()
         .then(res => {
             if (res === 0) {
+                const saltRounds = 10;
+                const password = configuration.Password;
+                const salt = bcrypt.genSaltSync(saltRounds);
+                const hash = bcrypt.hashSync(password, salt);
                 console.log('Data seeding in progress');
                 userRepository.create({
-                    name: 'head-trainer',
+                    name: 'Anil Kumar',
                     email: 'headtrainer@successivetech',
                     role: 'head-trainer',
-                    password: 'training@123'
-                });
+                    password: hash
+                }, null);
                 userRepository.create({
-                    name: 'trainer',
+                    name: 'Vinay Chaudhary',
                     email: 'trainer@successivetech',
                     role: 'trainer',
-                    password: 'training@123'
-                });
+                    password: hash
+                }, null);
             }
         })
         .catch(err => console.log(err));
