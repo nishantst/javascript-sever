@@ -18,7 +18,6 @@ class UserController {
     }
 
     public async get(req: Request, res: Response, next: NextFunction) {
-
         const user = new UserRepository();
         const { id } = req.query;
 
@@ -46,7 +45,43 @@ class UserController {
             });
 
     }
+    public async getAll(req: Request, res: Response, next: NextFunction) {
+        let skip: number;
+        let limit: number;
+        let sort: boolean;
 
+        if ('limit' in req.query) {
+            limit = Number(req.query.limit);
+        } else {
+            limit = 10;
+        }
+        if ('skip' in req.query) {
+            skip = Number(req.query.limit);
+        } else {
+            skip = 0;
+        }
+        if ('sort' in req.query) {
+            sort = true;
+        } else {
+            sort = false;
+        }
+
+        const user = new UserRepository();
+        await user.getallTrainee(skip, limit, sort)
+        .then((data) => {
+            res.status(200).send({
+                message: 'Trainees fetched successfully',
+                'count': data[1],
+                'data': data
+            });
+        })
+        .catch((err) => {
+            res.send({
+                message : 'Unable to fetch Trainees',
+                status : 404
+            });
+        });
+    }
     public async create(req: IRequest, res: Response, next: NextFunction) {
         const { id, name, email, role, password } = req.body;
         const user = new UserRepository();

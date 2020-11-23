@@ -9,6 +9,9 @@ const UserRouter = express.Router();
 UserRouter.get('/get', authMiddleWare('getUser1', 'all'), validationHandler(validation.get),
     UserController.get);
 
+    UserRouter.get('/getall', authMiddleWare('getUser1', 'all'), validationHandler(validation.get),
+    UserController.getAll);
+
 UserRouter.post('/create', authMiddleWare('getUser1', 'all'), validationHandler(validation.create),
     UserController.create);
 
