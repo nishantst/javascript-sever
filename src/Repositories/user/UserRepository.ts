@@ -48,8 +48,8 @@ export default class UserRepository extends VersinableRepository<IUserModel, mon
     public getUser(data) {
         return super.getUser(data);
     }
-    public getallTrainee(skip, limit, sort) {
-        return super.getallTrainee(skip, limit, sort);
+    public getAllTrainee(skip, limit, sort) {
+        return super.getAllTrainee(skip, limit, sort);
     }
 
 }

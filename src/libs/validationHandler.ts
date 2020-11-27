@@ -61,6 +61,17 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
                 });
             }
         }
+        // Checking for boolean
+        if (obj.boolean) {
+            values[0] = Boolean(values[0]);
+            if (!( typeof (values[0]) === 'boolean')) {
+                errors.push({
+                    key: key,
+                    location: obj.in,
+                    message: obj.errorMessage || `${key} should be boolean`,
+                });
+            }
+        }
         // Checking for regex
         if (obj.regex) {
             const regex = obj.regex;

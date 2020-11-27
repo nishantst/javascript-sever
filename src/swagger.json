@@ -1,0 +1,736 @@
+{
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "info": {
+        "description": "Express Training API with Swagger",
+        "title": "Express Training API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "nishant.gupta@successive.tech"
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "in": "Headers",
+            "name": "Authorization",
+            "type": "apiKey"
+        }
+    },
+    "swagger": "2.0",
+    "paths": {
+        "/trainee": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Fetch all trainees",
+                "description": "Returns the list of the trainees.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "description": "skip for pagination",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit for pagination",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort by name and email. If false, sort by chronological order.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search for name and email",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of trainees",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeListReponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Trainee Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeNotFoundResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/PermissionDenied"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/Unauthorized"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Create a trainee",
+                "description": "Returns the success reponse on creation.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Request Body",
+                        "description": "Trainee details for trainee user creation.",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TraineePost"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "$ref": "#/definitions/TraineePostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Unable to Create",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeNotCreatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized / Already Exists",
+                        "schema": {
+                            "$ref": "#/definitions/PermissionDenied"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/Unauthorized"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Update an existing trainee",
+                "description": "Returns the list of the trainnes.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Request Body",
+                        "description": "Trainee details for trainee user updation.",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TraineePut"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "$ref": "#/definitions/TraineePutResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Trainee Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeNotFoundResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/PermissionDenied"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
+        "/trainee/{_id}": {
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "tags": [
+                    "Trainee"
+                ],
+                "summary": "Delete an existing trainee",
+                "description": "Delete the trainee user from the records",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "_id",
+                        "description": "Unique id of the user that is to be deleted",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Response",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeDeleteResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Trainee Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/TraineeNotFoundResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/PermissionDenied"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/Unauthorized"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User login",
+                "description": "User can login using this endpoint by providing email and password. It returns token in response.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Login Ceredentials",
+                        "description": "Login ceredentials of the user.",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/LoginSuccess"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/me": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Details of the current user",
+                "description": "Details of the current user.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/UserMeResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "schema": {
+                            "$ref": "#/definitions/Unauthorized"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "TraineeNotFoundResponse": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Trainee not found"
+                },
+                "status": {
+                    "type": "int",
+                    "example": 404
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2019-03-10T19:51:37.066Z"
+                }
+            }
+        },
+        "TraineeNotCreatedResponse": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Unable to create Trainee"
+                },
+                "status": {
+                    "type": "int",
+                    "example": 400
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2019-03-10T19:51:37.066Z"
+                }
+            }
+        },
+        "User": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Test User",
+                    "description": "Name of the user"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "test.user@gmail.com",
+                    "description": "Email of the user",
+                    "required": true
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "head-trainer",
+                        "trainer",
+                        "trainee"
+                    ],
+                    "description": "Role of the user"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Password of the user",
+                    "example": "testPass",
+                    "required": true
+                }
+            }
+        },
+        "UserLogin": {
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "required": true,
+                    "example": "head.trainer@successivetech",
+                    "description": "Email of the user."
+                },
+                "password": {
+                    "type": "string",
+                    "required": true,
+                    "example": "Training@123",
+                    "description": "Password of the user."
+                }
+            }
+        },
+        "LoginSuccess": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Authorization Token",
+                    "description": "Success message of the response"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "Success status of the response"
+                },
+                "data": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsIn.6IjVjNmM0NzQ0Nzc0MDY1NGYwOTE1ZmFjNyIsImlhdCI6MTU1MjI0MzcwNH0.aaq-0oVa2yqghUFKPm7fU9jCtgIE-K-eUHtI4kQLt2M",
+                    "description": "jwt token"
+                }
+            }
+        },
+        "UserReturn": {
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Head Trainer"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "head-trainer",
+                        "trainer",
+                        "trainee"
+                    ]
+                },
+                "email": {
+                    "type": "string",
+                    "example": "head.trainer@successivetech"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "$2b$10$RErLYr9xDvpe3wGpjArXpel5K/TPDIIILLVqqplKyV8ah2a5uFVN6"
+                },
+                "originalId": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-02-19T18:13:24.620Z"
+                }
+            }
+        },
+        "TraineeReturn": {
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Trainee 1"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "trainee1@successivetech"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "$2b$10$RErLYr9xDvpe3wGpjArXpel5K/TPDIIILLVqqplKyV8ah2a5uFVN6"
+                },
+                "originalId": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2019-02-19T18:13:24.620Z"
+                },
+                "createdBy": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7"
+                }
+            }
+        },
+        "UserMeResponse": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Me",
+                    "description": "Success message of the response"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "Success status of the response"
+                },
+                "data": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/UserReturn"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "__v": {
+                                    "type": "string",
+                                    "example": 0
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "TraineeListReponse": {
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "Success status of the response"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Successfully fetched Trainees",
+                    "description": "Success message of the response"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "count": {
+                            "type": "int",
+                            "example": 1
+                        },
+                        "records": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TraineeReturn"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "TraineePost": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Test Trainee",
+                    "description": "Name of the trainee",
+                    "required": true
+                },
+                "role": {
+                    "type": "string",
+                    "example": " Trainee",
+                    "description": "Role of the trainee",
+                    "required": true
+                },
+                "email": {
+                    "type": "string",
+                    "example": "test.trainee@successivetech",
+                    "description": "Email of the trainee",
+                    "required": true
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Training@123",
+                    "description": "Password of the trainee",
+                    "required": true
+                }
+            }
+        },
+        "TraineePostResponse": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Trainee Created Successfully",
+                    "description": "Success message of the response"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "Success status of the response"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                       "name": {
+                            "type": "string",
+                            "example": "Test Trainee",
+                            "description": "Name of the trainee"
+                        },
+                        "email": {
+                            "type": "string",
+                            "example": "test.trainee@successivetech",
+                            "description": "Email of the trainee"
+                        },
+                        "role": {
+                            "type": "string",
+                            "example": "Trainee",
+                            "description": "Role"
+                        }
+                    }
+                }
+            }
+        },
+        "TraineePut": {
+            "type": "object",
+            "required": [
+                "id",
+                "dataToUpdate"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "5c6c47447740654f0915fac7",
+                    "required": true
+                },
+                "dataToUpdate": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "example": "Test Trainee",
+                            "description": "Name of the trainee",
+                            "required": false
+                        },
+                        "role": {
+                            "type": "string",
+                            "example": " Trainee",
+                            "description": "Role of the trainee",
+                            "required": true
+                        },
+                        "email": {
+                            "type": "string",
+                            "example": "test.trainee@successive.tech",
+                            "description": "Email of the trainee",
+                            "required": false
+                        },
+                        "password": {
+                            "type": "string",
+                            "example": "Training@123",
+                            "description": "Password of the trainee",
+                            "required": false
+                        }
+                    }
+                }
+            }
+        },
+        "TraineePutResponse": {
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "status of the response"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Trainee Updated Successfully",
+                    "description": "message of the reponse"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "description": "Id of the trainee",
+                            "example": "5c6c47447740654f0915fac7"
+                        }
+                    }
+                }
+            }
+        },
+        "TraineeDeleteResponse": {
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "ok",
+                    "description": "status of the response"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Trainee Deleted Successfully",
+                    "description": "message of the reponse"
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "description": "Id of the trainee",
+                            "example": "5c6c47447740654f0915fac7"
+                        }
+                    }
+                }
+            }
+        },
+        "Unauthorized": {
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Unauthorized"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Token not found"
+                },
+                "status": {
+                    "type": "int",
+                    "example": 401
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2019-03-10T19:51:37.066Z"
+                }
+            }
+        },
+        "PermissionDenied": {
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Unauthorized"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Permission Denied / Already Exists" 
+                },
+                "status": {
+                    "type": "int",
+                    "example": 403
+                },
+                "timestamp": {
+                    "type": "string",
+                    "example": "2019-03-10T19:51:37.066Z"
+                }
+            }
+        }
+    },
+    "responses": {},
+    "parameters": {},
+    "tags": []
+}

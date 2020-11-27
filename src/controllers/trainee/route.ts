@@ -8,12 +8,10 @@ import authMiddleWare from '../../libs/routes/authMiddleWare';
 const traineeRouter = express.Router();
 
 traineeRouter.route('/')
-    .get(authMiddleWare('getUser1', 'read'), validationHandler(validation.get), traineeController.get)
-    .post(authMiddleWare('getUser1', 'write'), validationHandler(validation.create), traineeController.create)
-    .put(authMiddleWare('getUser2', 'write'), validationHandler(validation.update), traineeController.update)
-    .delete(authMiddleWare('getUser1', 'delete'), validationHandler(validation.delete), traineeController.delete);
-
+.get(authMiddleWare('getUser1', 'all'), validationHandler(validation.get), traineeController.getAll)
+.post(authMiddleWare('getUser1', 'all'), validationHandler(validation.create), traineeController.create)
+.put(authMiddleWare('getUser1', 'all'), validationHandler(validation.update), traineeController.update);
 traineeRouter.route('/:id')
-    .delete(authMiddleWare('getUser2', 'delete'), validationHandler(validation.delete), traineeController.delete);
+.delete(authMiddleWare('getUser1', 'all'), validationHandler(validation.delete), traineeController.delete);
 
 export default traineeRouter;
