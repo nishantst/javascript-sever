@@ -24,8 +24,8 @@ export default  (moduleName, permissionType) => (req: IRequest, res: Response, n
     } catch (err) {
         next(
             {
-                message: 'Unauthorised Access',
-                code: 403
+                message: 'Token not found',
+                code: 401
             }
         );
     }

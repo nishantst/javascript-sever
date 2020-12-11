@@ -37,15 +37,50 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
 
 
-    public getUser(data: any) {
-        return this.model.findOne(data);
+    public async getUser(data: any) {
+        return await this.model.findOne(data);
+    }
+    // public async getallTrainee(skipDefined: number, limitDefined: number, sort: boolean) {
+    //     if ( sort ) {
+    //     const fetchData = await this.model.find( { deletedAt : null})
+    //     .skip(skipDefined)
+    //     .limit(limitDefined)
+    //     .sort({name: 1, email: 1});
+    //     const count = await this.model.find( {deletedAt: null})
+    //     .countDocuments();
+
+    //     const arr = [fetchData, count];
+    //     return arr;
+    //     } else {
+    //         const fetchData = await this.model.find({deletedAt: null})
+    //         .skip(skipDefined)
+    //         .limit(limitDefined)
+    //         .sort({createdAt: -1});
+    //         const count = await this.model.find({deletedAt: null})
+    //         .countDocuments();
+    //         const arr = [fetchData, count];
+    //         return arr;
+    //     }
+    //     }
+    public async getAllTrainee(query: any, options: any, sortQuery: any) {
+        const fetchedData = await this.model.find(query, {}, options)
+            .sort(sortQuery);
+
+        const length = await this.model.find(query)
+            .sort(sortQuery)
+            .countDocuments();
+
+        const record = { count: length, records: fetchedData };
+
+        return record;
+
     }
 
     public async update(id: string, dataToUpdate: any, updator) {
 
         let originalData;
 
-        await this.findOne({ id: id, updatedAt: null, deletedAt: null })
+        await this.findOne({ _id: id, updatedAt: null, deletedAt: null })
             .then((data) => {
                 if (data === null) {
                     throw 'Record Not Found';
@@ -85,7 +120,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
         let originalData;
 
-        await this.findOne({ id: id, deletedAt: null })
+        await this.findOne({ originalId: id, deletedAt: null })
             .then((data) => {
                 if (data === null) {
                     throw 'Record not found';

@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import IRequest from '../../IRequest';
+import UserRepository from '../../Repositories/user/UserRepository';
 class TraineeController {
 static instance: TraineeController;
 
@@ -10,62 +12,168 @@ static instance: TraineeController;
         return TraineeController.instance;
     }
 
-    get (req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log('Inside get method of Trainee');
-            res.send({
-                message: 'Trainee fetched succefully',
-                data : {
-                        name: 'Trainee1',
-                        address: 'Noida'
+    public async getAll(req: IRequest, res: Response, next: NextFunction) {
+
+        let skip: number;
+        let limit: number;
+        let sort: boolean;
+        let search: string = '';
+
+        if ('limit' in req.query) {
+            limit = Number(req.query.limit);
+        }
+        else {
+            limit = 10;
+        }
+
+        if ('skip' in req.query) {
+            skip = Number(req.query.skip);
+        }
+        else {
+            skip = 0;
+        }
+
+
+        if ('sort' in req.query) {
+            if (req.query.sort === 'true') {
+                sort = true;
+            }
+            else {
+                sort = false;
+            }
+        }
+        else {
+            sort = false;
+        }
+
+        if ('search' in req.query) {
+            search = req.query.search;
+        }
+
+        const query: any = {
+            deletedAt: { $exists: false },
+            updatedAt: { $exists: false },
+            role: 'trainee',
+            $or: [
+                {
+                    name: {
+                        $regex: search,
+                        $options: 'i'
                     }
+                },
+                {
+                    email: {
+                        $regex: search,
+                        $options: 'i'
+                    }
+                }
+            ]
+        };
+
+        const options: any = {
+            skip: skip,
+            limit: limit
+        };
+
+        let sortQuery: any;
+
+        if (sort) {
+            sortQuery = {
+                name: 1,
+                email: 1
+            };
+        }
+        else {
+            sortQuery = {
+                createdAt: -1
+            };
+        }
+
+        const user = new UserRepository();
+
+        await user.getAllTrainee(query, options, sortQuery)
+            .then((data) => {
+                if (data.count === 0) {
+                    throw '';
+                }
+                res.status(200).send({
+                    status: 'ok',
+                    message: 'Fetched successfully',
+                    Trainees: { data }
+                });
+            })
+            .catch((err) => {
+                res.status(404).send({
+                    message: 'Trainee Not Found',
+                    status: 404,
+                    timestamp: new Date()
+                });
             });
-        } catch (err) {
-            console.log('Inside err', err);
         }
-    }
-    create (req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log('Inside post method of Trainee');
-            res.send({
-                message: 'Trainee created succefully',
-                data : {
-                        name: 'Trainee1',
-                        address: 'Noida'
-                    }
+        public async create(req: IRequest, res: Response, next: NextFunction) {
+        const {  name, email, role, password } = req.body;
+        const user = new UserRepository();
+        const creator = req.userData._id;
+        await user.create({  name, email, role, password }, creator)
+            .then(() => {
+                res.status(200).send({
+                    message: 'User Created Successfully!',
+                    data: {
+                        'name': name,
+                        'email': email,
+                        'role': role,
+                        'password': password
+
+                    },
+                    code: 200
                 });
-        } catch (err) {
-            console.log('Inside err', err);
-        }
-    }
-    update (req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log('Inside put method of Trainee');
-            res.send({
-                message: 'Trainee updated succefully',
-                data : {
-                        name: 'Trainee1',
-                        address: 'Noida'
-                    }
+            })
+            .catch((err) => {
+                next({
+                    error: 'User not created',
+                    code: 404
                 });
-        } catch (err) {
-            console.log('Inside err', err);
-        }
+            });
     }
-    delete (req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log('Inside delete method of Trainee');
-            res.send({
-                message: 'Trainee deleted succefully',
-                data : {
-                        name: 'Trainee1',
-                        address: 'Noida'
-                    }
+    public update(req: IRequest, res: Response, next: NextFunction) {
+        const { id, dataToUpdate } = req.body;
+        const user = new UserRepository();
+        const updator = req.userData._id;
+        user.updateUser(id, dataToUpdate, updator)
+            .then((result) => {
+
+                res.status(200).send({
+                    message: 'User Updated',
+                    code: 200
                 });
-        } catch (err) {
-            console.log('Inside err', err);
+            })
+            .catch((err) => {
+                next({
+                    error: 'User Not Found for update',
+                    code: 404
+                });
+            });
+    }
+
+    public async delete(req: IRequest, res: Response, next: NextFunction) {
+        const id = req.params.id;
+        const user = new UserRepository();
+        const deletor = req.userData._id;
+        await user.delete(id, deletor)
+            .then((result) => {
+                res.send({
+                    message: 'Deleted successfully',
+                    code: 200
+                });
+            })
+            .catch((err) => {
+                next({
+                    error: 'User not found to be deleted',
+                    code: 404
+                });
+            });
         }
     }
-}
+
 
 export default TraineeController.getInstance();
